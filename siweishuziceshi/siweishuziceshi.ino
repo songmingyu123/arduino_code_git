@@ -1,4 +1,7 @@
 
+
+int time1 = 0;
+int time2 = 0;
 //设置阴极接口
 int a = A2;
 int b = 2;
@@ -129,8 +132,11 @@ void loop()
   //
   //
   //
-  for (int i = 0; i <= 250 && off_by_stopwatch == 0; i++)
+  time1 = millis();
+  Serial.println(time1);
+  for (int i = 0; i <= 221 && off_by_stopwatch == 0; i++)
   {
+
     print_number_now();
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -159,7 +165,7 @@ void loop()
           second_Ten = find_Ten(second_t);
           second_Bit = find_Bit(second_t);
           //得到时间各位结束
-          for (int m = 0; m <= 250; m++)
+          for (int m = 0; m <= 221; m++)
           {
             print_number_now();
             if (digitalRead(13) == HIGH) //然后检测是不是电平变为高了。是的话，就是刚好按钮按下了。
