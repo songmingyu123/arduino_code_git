@@ -1,15 +1,17 @@
 四位数码管： 
-
-1 a f 2 3 b
-
-12 A2 A0 11 10 2
-
-e d h c g 4
-
-5 4 8 3 7 9 
-
-13引脚 接暂停按钮
-
-A1  接电源按钮 
-
-A3  接切换按钮
+int a = 3;
+int b = 7;
+int c = 11; 
+int d = 9;
+int e = 8;
+int f = 4;
+int g = 12;
+int p = 10;
+//设置阳极接口
+int d4 = 13;
+int d3 = 6;     //数码管3接口
+int d2 = 5;     //数码管2接口
+int d1 = 2;    //数码管1接口
+int zanting = A0;//暂停按钮
+int dianyuan = A1;//电源按钮
+int qiehuan = A2;//切换

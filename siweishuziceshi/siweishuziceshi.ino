@@ -3,19 +3,22 @@
 int time1 = 0;
 int time2 = 0;
 //设置阴极接口
-int a = A2;
-int b = 2;
-int c = 3; 
-int d = 4;
-int e = 5;
-int f = A0;
-int g = 7;
-int p = 8;
+int a = 3;
+int b = 7;
+int c = 11; 
+int d = 9;
+int e = 8;
+int f = 4;
+int g = 12;
+int p = 10;
 //设置阳极接口
-int d4 = 9;
-int d3 = 10;     //数码管3接口
-int d2 = 11;     //数码管2接口
-int d1 = 12;    //数码管1接口
+int d4 = 13;
+int d3 = 6;     //数码管3接口
+int d2 = 5;     //数码管2接口
+int d1 = 2;    //数码管1接口
+int zanting = A0;//暂停按钮
+int dianyuan = A1;//电源按钮
+int qiehuan = A2;//切换
 //设置变量
 int del = 100;
 long n = 0;
@@ -55,10 +58,9 @@ void setup()
   pinMode(f, OUTPUT);
   pinMode(g, OUTPUT);
   pinMode(p, OUTPUT);
-  pinMode(13, INPUT);
-  pinMode(6, OUTPUT);
-  Serial.begin(9600);  //串口波特率为9600
-  pinMode(A1, INPUT); //设置引脚为输入模式
+  pinMode(zanting, INPUT);//暂停开始复位
+  pinMode(dianyuan, INPUT); //设置引脚为输入模式
+  pinMode(qiehuan,INPUT);//切换秒表和时钟
 }
 
 
@@ -79,16 +81,16 @@ int judge_time = 0; //计算按键按下的时间
 
 void loop()
 {
-  if (digitalRead(A1) == HIGH)
+  if (digitalRead(dianyuan) == HIGH)
   {
-    while (digitalRead(A1) == HIGH) //判断按钮状态，如果仍然按下的话，等待松开。防止一直按住导致LED输出端连续反转
+    while (digitalRead(dianyuan) == HIGH) //判断按钮状态，如果仍然按下的话，等待松开。防止一直按住导致LED输出端连续反转
     {
       print_number_now();
     }
     judge_on = 0;
   }
   //以下控制关机
-  //在judge_on==0的时候，只执行这个for语句，中的101~104行，是屏幕熄灭，直到A1引脚接收到按钮的信息，执行105的if语句，使屏幕亮起。
+  //在judge_on==0的时候，只执行这个for语句，中的101~104行，是屏幕熄灭，直到dianyuan引脚接收到按钮的信息，执行105的if语句，使屏幕亮起。
   //关机
   for (; judge_on == 0;)
   {
@@ -97,9 +99,9 @@ void loop()
     digitalWrite(d3, LOW);
     digitalWrite(d4, LOW);
     //开机
-    if (digitalRead(A1) == HIGH) //检测电源按钮是不是电平变为高了。是的话，就是刚好按钮按下了。
+    if (digitalRead(dianyuan) == HIGH) //检测电源按钮是不是电平变为高了。是的话，就是刚好按钮按下了。
     {
-      while (digitalRead(A1) == HIGH) //判断按钮状态，如果仍然按下的话，等待松开。防止一直按住导致LED输出端连续反转
+      while (digitalRead(dianyuan) == HIGH) //判断按钮状态，如果仍然按下的话，等待松开。防止一直按住导致LED输出端连续反转
       {
         //进入这个if和while语句就说明了数码管将要被启动了，初始化时间为10:00，
         min_Ten = 1; //分的十位
@@ -144,14 +146,14 @@ void loop()
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
      //秒表
-    if (digitalRead(A3) == HIGH)
+    if (digitalRead(qiehuan) == HIGH)
     {
       if (u%2 == 0)
       {  
         change_func = 0;
         u=0;
         judge_on_stopwatch = 1;
-        while (digitalRead(A3) == HIGH)
+        while (digitalRead(qiehuan) == HIGH)
         {
           min_t = 0;
           second_t = 0;
@@ -168,10 +170,10 @@ void loop()
           for (int m = 0; m <= 221; m++)
           {
             print_number_now();
-            if (digitalRead(13) == HIGH) //然后检测是不是电平变为高了。是的话，就是刚好按钮按下了。
+            if (digitalRead(zanting) == HIGH) //然后检测是不是电平变为高了。是的话，就是刚好按钮按下了。
             {
               k=0;
-              while (digitalRead(13) == HIGH) //判断按钮状态，如果仍然按下的话，等待松开。防止一直按住导致LED输出端连续反转
+              while (digitalRead(zanting) == HIGH) //判断按钮状态，如果仍然按下的话，等待松开。防止一直按住导致LED输出端连续反转
               {
                 print_number_now();
                 k++;
@@ -191,9 +193,9 @@ void loop()
             if (u % 2 == 0 )
               m--;
                     ///////////////////////////////////////////////////////////////////////////////
-            if (digitalRead(A1) == HIGH)
+            if (digitalRead(dianyuan) == HIGH)
             {
-              while (digitalRead(A1) == HIGH) //判断按钮状态，如果仍然按下的话，等待松开。防止一直按住导致LED输出端连续反转
+              while (digitalRead(dianyuan) == HIGH) //判断按钮状态，如果仍然按下的话，等待松开。防止一直按住导致LED输出端连续反转
               {
                 print_number_now();
               }
@@ -204,9 +206,9 @@ void loop()
               min_t = 0;
               break;//当程序暂停的时候，按电源键退出显示数字函数                 暂停的时候和运行的时候关机有问题
             }
-            if (digitalRead(A3) == HIGH)
+            if (digitalRead(qiehuan) == HIGH)
             {
-              while (digitalRead(A3) == HIGH)
+              while (digitalRead(qiehuan) == HIGH)
               {
                 print_number_now();
               }
@@ -228,17 +230,17 @@ void loop()
           change_time_forward();
        }//秒表大循环
       }  
-    }//判断A3按钮是否按下的if语句结束
+    }//判断qiehuan按钮是否按下的if语句结束
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //判断暂停按钮是否按下按钮
-    if (digitalRead(13) == HIGH) //然后检测是不是电平变为高了。是的话，就是刚好按钮按下了。
+    if (digitalRead(zanting) == HIGH) //然后检测是不是电平变为高了。是的话，就是刚好按钮按下了。
     {
       k = 0;
-      while (digitalRead(13) == HIGH) //判断按钮状态，如果仍然按下的话，等待松开。防止一直按住导致LED输出端连续反转
+      while (digitalRead(zanting) == HIGH) //判断按钮状态，如果仍然按下的话，等待松开。防止一直按住导致LED输出端连续反转
       {
         print_number_now();
         k++;
@@ -258,9 +260,9 @@ void loop()
     if (u % 2 == 0 )
       i--;
     ///////////////////////////////////////////////////////////////////////////////
-    if (digitalRead(A1) == HIGH)
+    if (digitalRead(dianyuan) == HIGH)
     {
-      while (digitalRead(A1) == HIGH) //判断按钮状态，如果仍然按下的话，等待松开。防止一直按住导致LED输出端连续反转
+      while (digitalRead(dianyuan) == HIGH) //判断按钮状态，如果仍然按下的话，等待松开。防止一直按住导致LED输出端连续反转
       {
         print_number_now();
       }
