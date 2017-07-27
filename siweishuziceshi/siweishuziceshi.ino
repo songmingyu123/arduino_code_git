@@ -16,8 +16,8 @@ int d4 = 13;
 int d3 = 6;     //数码管3接口
 int d2 = 5;     //数码管2接口
 int d1 = 2;    //数码管1接口
-int zanting = A0;//暂停按钮
-int dianyuan = A1;//电源按钮
+int zanting = A1;//暂停按钮
+int dianyuan = A0;//电源按钮
 int qiehuan = A2;//切换
 //设置变量
 int del = 100;
@@ -61,6 +61,7 @@ void setup()
   pinMode(zanting, INPUT);//暂停开始复位
   pinMode(dianyuan, INPUT); //设置引脚为输入模式
   pinMode(qiehuan,INPUT);//切换秒表和时钟
+  Serial.begin(9600);
 }
 
 
@@ -133,9 +134,12 @@ void loop()
   //显示数字部分
   //
   //
-  //
+//  Serial.println("11111");
+//  for(;;)
+//    print_number_now();
+//  //
+//    Serial.println("22222");
   time1 = millis();
-  Serial.println(time1);
   for (int i = 0; i <= 221 && off_by_stopwatch == 0; i++)
   {
 
