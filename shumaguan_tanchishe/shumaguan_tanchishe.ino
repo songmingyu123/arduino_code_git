@@ -1,18 +1,18 @@
 
 //设置阴极接口
-int a = 23;
-int b = 27;
-int c = 31;
-int d = 29;
-int e = 28;
-int f = 24;
-int g = 32;
-int p = 30;//point
+int a = A11;
+int b = A15;
+int c = A7;
+int d = A5;
+int e = A4;
+int f = A12;
+int g = A8;
+int p = A6;//point
 //设置阳极接口
-int d4 = 33;
-int d3 = 26;     //数码管3接口
-int d2 = 25;     //数码管2接口
-int d1 = 22;    //数码管1接口
+int d4 = A9;
+int d3 = A14;     //数码管3接口
+int d2 = A13;     //数码管2接口
+int d1 = A10;    //数码管1接口
 //设置变量
 int del = 100;
 long n = 0;
@@ -24,13 +24,13 @@ int n1 = 0, n2 = 0, n3 = 0, n4 = 0;
 int times_open = 0; //时间
 int times; //点亮循环次数
 int i, j; //light二维数组的坐标
-int row[8] = { 12, 11, 10, 9, A0, A1, A2, A3 };
-int line[8] = { 8, 7, 6, 5, 4, 3, 2, A5 };
+int row[8] = { 53, 51, 49, 47, 23, 25, 27, 29 };
+int line[8] = { 45, 43, 41, 39, 37, 35, 33, 31 };
 int power_pause_Pin = 13;//控制电源和暂停按钮
-int turn_left_Pin = A4;//左转按钮
-int turn_right_Pin = A6;//右转按钮
-int turn_up_Pin = A7;
-int turn_down_Pin = A8;
+int turn_left_Pin = A3;//左转按钮
+int turn_right_Pin = A0;//右转按钮
+int turn_up_Pin = A1;
+int turn_down_Pin = A2;
 int left = 0; //左
 int right = 0; //右
 int up = 0; //shang
@@ -123,25 +123,28 @@ int stop_game = 0;//暂停标志
 void setup()
 {
   Serial.begin(9600); // 打开串口，设置波特率为9600 bps
-  pinMode(A5, OUTPUT);//第八列灯
-  pinMode(A6, INPUT);//控制右转按钮
-  for ( i = 2; i <= 12; ++i )
-  {
-    pinMode( i, OUTPUT );
-    /* 控制列 */
-  }
-  pinMode(A0, OUTPUT);
-  pinMode(A1, OUTPUT);
-  pinMode(A2, OUTPUT);
-  pinMode(A3, OUTPUT);
-  pinMode(A4, INPUT);
-  pinMode(A7, INPUT);
-  pinMode(A8, INPUT);
-  pinMode(13, INPUT);
-  for (int i = 22; i < 34; i++)
+  for (int i = 23; i < 54;)
   {
     pinMode(i, OUTPUT);
+    i = i + 2;
   }
+  pinMode(A0, INPUT);
+  pinMode(A1, INPUT);
+  pinMode(A2, INPUT);
+  pinMode(A3, INPUT);
+  pinMode(13, INPUT);
+  pinMode(A4, OUTPUT);
+  pinMode(A5, OUTPUT);
+  pinMode(A6, OUTPUT);
+  pinMode(A7, OUTPUT);
+  pinMode(A8, OUTPUT);
+  pinMode(A9, OUTPUT);
+  pinMode(A10, OUTPUT);
+  pinMode(A11, OUTPUT);
+  pinMode(A12, OUTPUT);
+  pinMode(A13, OUTPUT);
+  pinMode(A14, OUTPUT);
+  pinMode(A15, OUTPUT);
 }
 
 
@@ -229,19 +232,19 @@ void create_food()//创建食物
   times_open++;
   food_1 = (snake *)malloc(sizeof(snake));
   food_1->next = NULL;
-  for(int i=0;i<8;i++)
+  for (int i = 0; i < 8; i++)
   {
-    for(int j=0;j<8;j++)
+    for (int j = 0; j < 8; j++)
     {
-      if(table[i][j] == 0)
-      break;
+      if (table[i][j] == 0)
+        break;
     }
-    if(table[i][j] == 0)
-    break;
+    if (table[i][j] == 0)
+      break;
   }
-  if(i == 8)
+  if (i == 8)
     game_over = 1;
-    
+
   for (; judge == 0;)
   {
     times_open++;
@@ -400,7 +403,7 @@ void control_snake()//控制按钮
       display1();
       display_score();
     }
-      
+
     right = 1;
   }
   else if (digitalRead(turn_up_Pin) == HIGH)
