@@ -2,14 +2,14 @@
 //设置阴极接口
 int a = A11;
 int b = A15;
-int c = A7;
-int d = A5;
-int e = A4;
+int c = A6;
+int d = A8;
+int e = A9;
 int f = A12;
-int g = A8;
-int p = A6;//point
+int g = A5;
+int p = A7;//point
 //设置阳极接口
-int d4 = A9;
+int d4 = A4;
 int d3 = A14;     //数码管3接口
 int d2 = A13;     //数码管2接口
 int d1 = A10;    //数码管1接口
@@ -24,9 +24,9 @@ int n1 = 0, n2 = 0, n3 = 0, n4 = 0;
 int times_open = 0; //时间
 int times; //点亮循环次数
 int i, j; //light二维数组的坐标
-int row[8] = { 53, 51, 49, 47, 23, 25, 27, 29 };
-int line[8] = { 45, 43, 41, 39, 37, 35, 33, 31 };
-int power_pause_Pin = 13;//控制电源和暂停按钮
+int row[8] = {29,27,25,23,47,49,51,53};
+int line[8] = { 31,33,35,37,39,41,43,45 };
+int power_pause_Pin = 22;//控制电源和暂停按钮
 int turn_left_Pin = A3;//左转按钮
 int turn_right_Pin = A0;//右转按钮
 int turn_up_Pin = A1;
